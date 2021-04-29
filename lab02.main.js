@@ -38,8 +38,8 @@ const validResponseRegex = /(2\d\d)/;
  */
 
 /**
- * @function get
- * @description Call the ServiceNow GET API.
+ * @function post
+ * @description Call the ServiceNow POST API.
  *
  * @param {string} serviceNowTable - The table target of the ServiceNow table API.
  * @param {iapCallback} callback - Callback a function.
@@ -66,7 +66,7 @@ function get(serviceNowTable, callback) {
       pass: options.password,
     },
     baseUrl: options.url,
-    uri: `/api/now/table/${serviceNowTable}?sysparm_limit=1`,
+    uri: `/api/now/table/${serviceNowTable}`,
   };
 
   // Send Request to ServiceNow.
@@ -96,9 +96,11 @@ function get(serviceNowTable, callback) {
 
 }
 
+
+
 /**
  * @function post
- * @description Call the ServiceNow GET API.
+ * @description Call the ServiceNow POST API.
  *
  * @param {string} serviceNowTable - The table target of the ServiceNow table API.
  * @param {iapCallback} callback - Callback a function.
@@ -125,7 +127,7 @@ function post(serviceNowTable, callback) {
       pass: options.password,
     },
     baseUrl: options.url,
-    uri: `/api/now/table/${serviceNowTable}?sysparm_limit=1`,
+    uri: `/api/now/table/${serviceNowTable}`,
   };
 
   // Send Request to ServiceNow.
@@ -178,4 +180,4 @@ function main() {
 }
 
 // Call main to run it.
-main(); 
+main();
