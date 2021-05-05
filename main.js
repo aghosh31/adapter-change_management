@@ -134,7 +134,7 @@ class ServiceNowAdapter extends EventEmitter {
     }
 
   /**
-   * @memberof ServiceNowAdapter
+   * @memberof ServiceNowAdapters
    * @method emitOffline
    * @summary Emit OFFLINE
    * @description Emits an OFFLINE event to IAP indicating the external
