@@ -7,7 +7,7 @@ const path = require('path');
  * When importing local modules, IAP requires an absolute file reference.
  * Built-in module path's join method constructs the absolute filename.
  */
-const ServiceNowConnector = require(path.join(__dirname, '/connector.js'));
+const ServiceNowConnector = require(path.join(__dirname, 'connector.js'));
 
 /**
  * Import built-in Node.js package events' EventEmitter class and
@@ -84,16 +84,16 @@ class ServiceNowAdapter extends EventEmitter {
   }
 
   /**
- * @memberof ServiceNowAdapter
- * @method healthcheck
- * @summary Check ServiceNow Health
- * @description Verifies external system is available and healthy.
- *   Calls method emitOnline if external system is available.
- *
- * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
- *   that handles the response.
- */
-    healthcheck(callback) {
+   * @memberof ServiceNowAdapter
+   * @method healthcheck
+   * @summary Check ServiceNow Health
+   * @description Verifies external system is available and healthy.
+   *   Calls method emitOnline if external system is available.
+   *
+   * @param {ServiceNowAdapter~requestCallback} [callback] - The optional callback
+   *   that handles the response.
+   */
+      healthcheck(callback) {
         this.getRecord((result, error) => {
         /**
             * For this lab, complete the if else conditional
@@ -134,7 +134,7 @@ class ServiceNowAdapter extends EventEmitter {
     }
 
   /**
-   * @memberof ServiceNowAdapter
+   * @memberof ServiceNowAdapters
    * @method emitOffline
    * @summary Emit OFFLINE
    * @description Emits an OFFLINE event to IAP indicating the external
@@ -142,7 +142,7 @@ class ServiceNowAdapter extends EventEmitter {
    */
   emitOffline() {
     this.emitStatus('OFFLINE');
-    log.warn(`ServiceNow: Instance ${this.id} is unavailable.`);
+    log.warn('ServiceNow: Instance is unavailable.');
   }
 
   /**
@@ -154,7 +154,7 @@ class ServiceNowAdapter extends EventEmitter {
    */
   emitOnline() {
     this.emitStatus('ONLINE');
-    log.info(`ServiceNow: Instance ${this.id} is available.`);
+    log.info('ServiceNow: Instance is available.');
   }
 
   /**
@@ -186,25 +186,13 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
+     this.connector.get((data, error) => {
+    if (error) {
+      console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+    }
+    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`)
+  });
 
-     this.connector.get((result, error) => {
-         if (result && result['body']) {
-             const body = JSON.parse(result['body'])
-             const tickets = body.result.map((change) => {
-                 return {
-                     change_ticket_number: change.number,
-                     active: change.active,
-                     priority: change.priority,
-                     description: change.description,
-                     work_start: change.work_start,
-                     work_end: change.work_end,
-                     change_ticket_key: change.sys_id
-                 }
-             });
-             callback(tickets);
-         }
-         
-     });
   }
 
   /**
@@ -223,24 +211,13 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
+      this.connector.post((data, error) => {
+    if (error) {
+      console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
+    }
+    console.log(`\nResponse returned from POST request:\n${JSON.stringify(data)}`)
+  });
 
-     this.connector.post((result, error) => {
-         if (result && result['body']) {
-             const body = JSON.parse(result['body'])
-             const tickets =  body.result.map((change) => {
-                 return {
-                     change_ticket_number: change.number,
-                     active: change.active,
-                     priority: change.priority,
-                     description: change.description,
-                     work_start: change.work_start,
-                     work_end: change.work_end,
-                     change_ticket_key: change.sys_id
-                 }
-             });
-             callback(tickets);
-         }
-     });
   }
 }
 
